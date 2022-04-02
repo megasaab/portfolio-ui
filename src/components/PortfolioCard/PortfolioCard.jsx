@@ -6,6 +6,7 @@ import { toJS } from 'mobx'
 import { Container } from "react-bootstrap";
 import showdown from "showdown";
 import PortfolioService from "../../service/PortfolioService";
+import { SocialIcon } from 'react-social-icons'
 
 
 const PortfolioCard = () => {
@@ -48,24 +49,24 @@ const PortfolioCard = () => {
                 <h3 className="text-secondary">{portfolio.position}</h3>
             </div>
 
-            <div className="text-center d-flex">
+            <div className="text-center d-flex mb-3">
                 <div className="d-flex">
                     <div className="cursor-pointer me-5">
-                        <img width="30px" height="30px" src="https://play-lh.googleusercontent.com/kMofEFLjobZy_bCuaiDogzBcUT-dz3BBbOrIEjJ-hqOabjK8ieuevGe6wlTD15QzOqw" alt="linkedin" />
+                        <SocialIcon url="https://www.linkedin.com/in/sabyrzhan-azhigali-585615173/" />
                     </div>
                     <div className="cursor-pointer me-5">
-                        <img width="30px" height="30px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png" alt="githab" />
+                        <SocialIcon url="https://github.com/megasaab/portfolio-back-end/tree/main/src/controllers" />
                     </div>
                     <div className="cursor-pointer me-5">
-                        <img width="30px" height="30px" src="https://img.softline.com/mcf/b641ab1aacba4e2e00251f1605c5900a/205975d32898c2059b02/scale-dec-294x280.png" />
+                        <SocialIcon url="https://gitlab.fs-labs.com/megasaab" />
                     </div>
                     <div className="cursor-pointer">
-                        <img width="30px" height="30px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/1200px-Telegram_2019_Logo.svg.png" />
+                        <SocialIcon url="https://web.telegram.org/megasaab" />
                     </div>
                 </div>
             </div>
 
-            <Container>
+            <Container className="bg-light p-5 mb-3">
                 <h4 className="mb-3">{portfolio.title}</h4>
                 <div className="row">
 
@@ -79,6 +80,33 @@ const PortfolioCard = () => {
                     </div>
 
                     <div className="col-md-8 col-sm-12" dangerouslySetInnerHTML={{ __html: markDownToHtml() }}>
+                    </div>
+                </div>
+            </Container>
+
+            <Container className="bg-light p-5">
+                <h4 className="mb-3">Projects</h4>
+                <div className="row">
+                    <div className="col-lg-4 col-md-12 p-0">
+                        <div className="hover-div d-flex flex-column align-items-center">
+                            <img src="https://static.adigame.dev/portfolio/img/projects/1624373747-small.png" className="img-responsive img-style" alt="img-project" />
+                            <h3 className="h5">Tank</h3>
+                            <p className="text-secondary">Unity</p>
+                        </div>
+                    </div>
+                    <div className="col-lg-4 col-md-12 p-0">
+                        <div className="hover-div d-flex flex-column align-items-center">
+                            <img src="https://static.adigame.dev/portfolio/img/projects/1624373747-small.png" className="img-responsive img-style" alt="img-project" />
+                            <h3 className="h5">Tank</h3>
+                            <p className="text-secondary">Unity</p>
+                        </div>
+                    </div>
+                    <div className="col-lg-4 col-md-12 p-0">
+                        <div className="hover-div d-flex flex-column align-items-center">
+                            <img src="https://static.adigame.dev/portfolio/img/projects/1624373747-small.png" className="img-responsive img-style" alt="img-project" />
+                            <h3 className="h5">Tank</h3>
+                            <p className="text-secondary">Unity</p>
+                        </div>
                     </div>
                 </div>
             </Container>

@@ -21,3 +21,30 @@
 .text-link:hover {
   color: white;
 }
+
+
+.hover-div:hover {
+  padding: 0px 5px;
+  text-align: center;
+  min-height: 350px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  margin: 10px 0px;
+}
+
+.hover-div {
+  cursor: pointer;
+  padding: 5px 15px;
+}
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.img-style {
+  width: 100%;
+  height: auto;
+  min-height: 200px;
+}
