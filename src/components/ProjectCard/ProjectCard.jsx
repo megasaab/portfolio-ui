@@ -24,7 +24,7 @@ const ProjectCard = () => {
     }, []);
 
     return (
-        <Container>
+        <Container className="bg-light p-5">
             <div className="p-3">
                 <div class="d-flex justify-content-between mb-smaller align-items-center mb-5">
                     <h2 class="d-inline m-0">{project?.title}</h2>
