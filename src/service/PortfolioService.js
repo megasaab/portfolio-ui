@@ -12,4 +12,8 @@ export default class PortfolioService {
     static async getProjectById(id) {
         return $api.get(`/portfolio/get-project-by-id/${id}`)
     }
+    
+    static async editPortfolio(id, portfolio) {
+        return $api.post(`/portfolio/edit-portfolio`, {id, portfolio})
+    }
 }
