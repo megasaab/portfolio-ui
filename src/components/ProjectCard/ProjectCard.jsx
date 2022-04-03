@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { SocialIcon } from "react-social-icons";
 import PortfolioService from "../../service/PortfolioService";
-import { FaPencilAlt } from 'react-icons/fa';
+import { FaPencilAlt, FaWindowClose } from 'react-icons/fa';
 import { Context } from "../..";
 
 const ProjectCard = () => {
@@ -26,6 +26,7 @@ const ProjectCard = () => {
     // editProject diels end
 
     const { id, portfolioId } = useParams();
+    const navigate = useNavigate();
 
     const onEditClicked = () => {
         setEdit(prevState => setEdit(!prevState));
@@ -38,6 +39,17 @@ const ProjectCard = () => {
         setAbout(project.about);
         setGithubLink(project.githubLink);
         setDescription(project.description);
+    }
+
+    const onRemoveClicked = async () => {
+        try {
+            const response = await PortfolioService.deleteProject(id);
+            if (response.status === 200) {
+                navigate('/portfolio-card/' + store.user.portfolioId);
+            };
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const { store } = useContext(Context);
@@ -73,13 +85,18 @@ const ProjectCard = () => {
         <Container className="bg-light p-5">
             <div className="p-3">
                 {store?.user?.portfolioId === portfolioId ?
-                    <Container>
-                        <div className="text-end fw-bold mb-4 cursor-pointer" onClick={() => onEditClicked()}>
-                            <FaPencilAlt />
+
+                    <div className="d-flex justify-content-between">
+                        <div className="fw-bold mb-4 m-0">
+                            delete <FaWindowClose className="cursor-pointer" onClick={() => onRemoveClicked()} />
                         </div>
-                    </Container> : ''
+                        <div className="fw-bold mb-4">
+                            <FaPencilAlt className="cursor-pointer" onClick={() => onEditClicked()} />
+                        </div>
+                    </div>
+                    : ''
                 }
-                <div class="d-flex justify-content-between mb-smaller align-items-center mb-5">
+                <div className="d-flex justify-content-between mb-smaller align-items-center mb-5">
 
                     {isEdit ?
 
@@ -90,7 +107,7 @@ const ProjectCard = () => {
                             <Form.Control type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
                         </Form.Group>
                         :
-                        <h2 class="d-inline m-0">{project?.title}</h2>
+                        <h2 className="d-inline m-0">{project?.title}</h2>
                     }
 
                     {isEdit ?
@@ -102,13 +119,13 @@ const ProjectCard = () => {
                             <Form.Control type="text" value={author} onChange={(e) => setAuthor(e.target.value)} />
                         </Form.Group>
                         :
-                        <h2 class="d-inline m-0">{project?.author}</h2>
+                        <h2 className="d-inline m-0">{project?.author}</h2>
                     }
 
                 </div>
-                <div class="row">
+                <div className="row">
 
-                    <div class="col-md-4 col-sm-12">
+                    <div className="col-md-4 col-sm-12">
 
 
                         {isEdit ?
@@ -120,17 +137,17 @@ const ProjectCard = () => {
                                 <Form.Control type="text" value={projectLogo} onChange={(e) => setProjectLogo(e.target.value)} />
                             </Form.Group>
                             :
-                            <p class="m-0">
-                                <img src={project?.projectLogo} class="img-responsive" alt="" />
+                            <p className="m-0">
+                                <img src={project?.projectLogo} className="img-responsive" alt="" />
                             </p>
                         }
 
                     </div>
 
-                    <div class="p-4 d-block d-lg-none"></div>
+                    <div className="p-4 d-block d-lg-none"></div>
 
-                    <div class="col-md-8 col-sm-12">
-                        <table class="table table-borderless table-sm mb-0">
+                    <div className="col-md-8 col-sm-12">
+                        <table className="table table-borderless table-sm mb-0">
                             <tbody>
 
                                 {isEdit ?
@@ -186,14 +203,14 @@ const ProjectCard = () => {
                     </div>
 
 
-                    <div class="col-md-12">
-                        <div class="p-4"></div>
-                        <hr class="m-0" />
-                        <div class="p-4"></div>
+                    <div className="col-md-12">
+                        <div className="p-4"></div>
+                        <hr className="m-0" />
+                        <div className="p-4"></div>
                     </div>
 
-                    <div class="col-md-12 d-flex justify-content-end">
-                        <div class="m-0 btn-group">
+                    <div className="col-md-12 d-flex justify-content-end">
+                        <div className="m-0 btn-group">
 
                             {/* <a href="https://github.com/madrigals1/tank2" class="btn btn-primary d-flex align-items-center">
                                 <SocialIcon url={project?.githubLink} style={{ height: 25, width: 25, }} fgColor="white" className="me-1" />
@@ -204,12 +221,12 @@ const ProjectCard = () => {
 
                                 <Form.Group>
                                     <Form.Label>
-                                       GitRepo (link)
+                                        GitRepo (link)
                                     </Form.Label>
                                     <Form.Control type="text" value={githubLink} onChange={(e) => setGithubLink(e.target.value)} />
                                 </Form.Group>
                                 :
-                                <a href={project?.githubLink} class="btn btn-primary d-flex align-items-center">
+                                <a href={project?.githubLink} className="btn btn-primary d-flex align-items-center">
                                     <SocialIcon url={project?.githubLink} style={{ height: 25, width: 25, }} fgColor="white" className="me-1" />
                                     <div>Git</div>
                                 </a>
@@ -221,7 +238,7 @@ const ProjectCard = () => {
 
                     </div>
 
-                    <div class="card-block">
+                    <div className="card-block">
                         {isEdit ?
 
                             <>

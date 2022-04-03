@@ -24,4 +24,8 @@ export default class PortfolioService {
     static async createProject(project) {
         return $api.post(`/portfolio/create-project`, project )
     }
+
+    static async deleteProject(id) {
+        return $api.post(`/portfolio/delete-project`, {id} )
+    }
 }

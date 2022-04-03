@@ -53,7 +53,7 @@ const PortfolioCard = () => {
             await PortfolioService.createProject({
                 title: 'new project', position: 'add position', socialNetworks, avatarUrl, aboutMe, workExpirience
             });
-        
+
             initPorfolio()
         } catch (error) {
             console.log(error)
@@ -79,7 +79,7 @@ const PortfolioCard = () => {
         try {
             const newPortfolio = { title, position, socialNetworks, avatarUrl, aboutMe, workExpirience };
 
-            const response = await PortfolioService.editPortfolio(portfolio._id, newPortfolio);
+            const response = await PortfolioService.editPortfolio(portfolio?._id, newPortfolio);
             setPortfolio(response.data.result);
             setEdit(false);
             console.log(response);
@@ -91,7 +91,7 @@ const PortfolioCard = () => {
 
     return (
         <>
-            {store?.user?.portfolioId === portfolio._id ?
+            {store?.user?.portfolioId === portfolio?._id ?
                 <Container>
                     <div className="text-end fw-bold mb-4 cursor-pointer" onClick={() => onEditClicked()}>
                         <FaPencilAlt />
@@ -203,7 +203,7 @@ const PortfolioCard = () => {
 
                     <div className="row">
                         {portfolio.projectList?.map((item) =>
-                            <Link className="text-decoration-none col-lg-4 col-md-12 p-0" to={'/project-card/' + item?._id + '/' + portfolio._id} key={item._id}>
+                            <Link className="text-decoration-none col-lg-4 col-md-12 p-0" to={'/project-card/' + item?._id + '/' + portfolio?._id} key={item?._id}>
                                 <div className="hover-div d-flex flex-column align-items-center">
                                     <img src={item?.projectLogo} className="img-responsive img-style" alt="img-project" />
                                     <h3 className="h5" style={{ color: 'black' }}>{item?.title}</h3>
@@ -234,6 +234,10 @@ const PortfolioCard = () => {
                                 <Form.Control type="text" className="mb-3"
                                     value={workExpirience[workExpirience.indexOf(exp)]?.companyLink}
                                     onChange={(e) => setWorkExpirience([{ companyLink: e.target.value }, ...workExpirience[workExpirience.indexOf(exp)]])} />
+
+                                <Form.Control type="text" className="mb-3"
+                                    value={workExpirience[workExpirience.indexOf(exp)]?.companyName}
+                                    onChange={(e) => setWorkExpirience([{ companyName: e.target.value }, ...workExpirience[workExpirience.indexOf(exp)]])} />
 
                                 <textarea className="col-md-8 col-sm-12" height="2"
                                     value={workExpirience[workExpirience.indexOf(exp)]?.expirience} type="textarea"
