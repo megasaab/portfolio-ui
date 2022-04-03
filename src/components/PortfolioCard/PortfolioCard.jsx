@@ -21,7 +21,6 @@ const PortfolioCard = () => {
 
     useEffect(() => {
         const portfolio = toJS(store.portfolio);
-        console.log(portfolio)
         if (portfolio.title) {
             setPortfolio(portfolio);
         } else {
@@ -51,28 +50,21 @@ const PortfolioCard = () => {
 
             <div className="text-center d-flex mb-3">
                 <div className="d-flex">
-                    <div className="cursor-pointer me-5">
-                        <SocialIcon url="https://www.linkedin.com/in/sabyrzhan-azhigali-585615173/" />
-                    </div>
-                    <div className="cursor-pointer me-5">
-                        <SocialIcon url="https://github.com/megasaab/portfolio-back-end/tree/main/src/controllers" />
-                    </div>
-                    <div className="cursor-pointer me-5">
-                        <SocialIcon url="https://gitlab.fs-labs.com/megasaab" />
-                    </div>
-                    <div className="cursor-pointer">
-                        <SocialIcon url="https://web.telegram.org/megasaab" />
-                    </div>
+                    {portfolio.socialNetworks?.map((link) =>
+                        <div className="cursor-pointer me-5" key={link}>
+                            <SocialIcon url={link} />
+                        </div>
+                    )}
                 </div>
             </div>
 
             <Container className="bg-light p-5 mb-3">
-                <h4 className="mb-3">{portfolio.title}</h4>
+                <h4 className="mb-3">About me</h4>
                 <div className="row">
 
                     <div className="col-md-4 col-sm-12">
                         <p>
-                            <img src="https://static.adigame.dev/portfolio/profile.jpeg" alt="person" />
+                            <img width="400px" height="400px" src={portfolio?.avatarUrl} alt="person" />
                         </p>
                     </div>
                     <div className="p-4 d-block d-lg-none">
@@ -87,27 +79,15 @@ const PortfolioCard = () => {
             <Container className="bg-light p-5">
                 <h4 className="mb-3">Projects</h4>
                 <div className="row">
-                    <div className="col-lg-4 col-md-12 p-0">
-                        <div className="hover-div d-flex flex-column align-items-center">
-                            <img src="https://static.adigame.dev/portfolio/img/projects/1624373747-small.png" className="img-responsive img-style" alt="img-project" />
-                            <h3 className="h5">Tank</h3>
-                            <p className="text-secondary">Unity</p>
+                    {portfolio.projectList?.map((item) =>
+                        <div className="col-lg-4 col-md-12 p-0" key={item._id}>
+                            <div className="hover-div d-flex flex-column align-items-center">
+                                <img src={item?.projectLogo} className="img-responsive img-style" alt="img-project" />
+                                <h3 className="h5">{item?.title}</h3>
+                                <p className="text-secondary">{item?.language}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-lg-4 col-md-12 p-0">
-                        <div className="hover-div d-flex flex-column align-items-center">
-                            <img src="https://static.adigame.dev/portfolio/img/projects/1624373747-small.png" className="img-responsive img-style" alt="img-project" />
-                            <h3 className="h5">Tank</h3>
-                            <p className="text-secondary">Unity</p>
-                        </div>
-                    </div>
-                    <div className="col-lg-4 col-md-12 p-0">
-                        <div className="hover-div d-flex flex-column align-items-center">
-                            <img src="https://static.adigame.dev/portfolio/img/projects/1624373747-small.png" className="img-responsive img-style" alt="img-project" />
-                            <h3 className="h5">Tank</h3>
-                            <p className="text-secondary">Unity</p>
-                        </div>
-                    </div>
+                    )}
                 </div>
             </Container>
         </>
