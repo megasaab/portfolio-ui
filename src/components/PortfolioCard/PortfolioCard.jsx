@@ -20,20 +20,16 @@ const PortfolioCard = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        const portfolio = toJS(store.portfolio);
-        if (portfolio.title) {
-            setPortfolio(portfolio);
-        } else {
-            try {
-                PortfolioService.getById(id).then(response => {
-                    setPortfolio(response.data.result);
-                }).catch(err => console.log(err));
 
-            } catch (error) {
-                console.log(error);
-            }
+        try {
+            PortfolioService.getById(id).then(response => {
+                setPortfolio(response.data.result);
+            }).catch(err => console.log(err));
 
+        } catch (error) {
+            console.log(error);
         }
+
     }, []);
 
     const markDownToHtml = () => {
