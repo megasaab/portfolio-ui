@@ -56,7 +56,7 @@ const Main = () => {
                     <Route path="/portfolio-card/:id" element={<PortfolioCard />}>
 
                     </Route>
-                    <Route path="/project-card/:id" element={<ProjectCard />}>
+                    <Route path="/project-card/:id/:portfolioId" element={<ProjectCard />}>
 
                     </Route>
                     <Route path="" element={<Navigate to="/portfolio-list" />} />

@@ -181,7 +181,7 @@ const PortfolioCard = () => {
                     <h4 className="mb-3">Projects</h4>
                     <div className="row">
                         {portfolio.projectList?.map((item) =>
-                            <Link className="text-decoration-none col-lg-4 col-md-12 p-0" to={'/project-card/' + item?._id} key={item._id}>
+                            <Link className="text-decoration-none col-lg-4 col-md-12 p-0" to={'/project-card/' + item?._id + '/' + portfolio._id} key={item._id}>
                                 <div className="hover-div d-flex flex-column align-items-center">
                                     <img src={item?.projectLogo} className="img-responsive img-style" alt="img-project" />
                                     <h3 className="h5" style={{ color: 'black' }}>{item?.title}</h3>
