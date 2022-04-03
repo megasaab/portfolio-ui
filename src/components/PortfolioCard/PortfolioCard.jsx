@@ -6,7 +6,7 @@ import showdown from "showdown";
 import PortfolioService from "../../service/PortfolioService";
 import { SocialIcon } from 'react-social-icons'
 import { Link } from "react-router-dom";
-import { FaPencilAlt } from 'react-icons/fa';
+import { FaPencilAlt, FaPlus } from 'react-icons/fa';
 import { Context } from "../..";
 
 
@@ -33,16 +33,32 @@ const PortfolioCard = () => {
     useEffect(() => {
 
         try {
-            PortfolioService.getById(id).then(response => {
-                setPortfolio(response.data.result);
-
-            }).catch(err => console.log(err));
+            initPorfolio();
 
         } catch (error) {
             console.log(error);
         }
 
     }, []);
+
+    const initPorfolio = async () => {
+        PortfolioService.getById(id).then(response => {
+            setPortfolio(response.data.result);
+
+        }).catch(err => console.log(err));
+    }
+
+    const onAddProjectClicked = async () => {
+        try {
+            await PortfolioService.createProject({
+                title: 'new project', position: 'add position', socialNetworks, avatarUrl, aboutMe, workExpirience
+            });
+        
+            initPorfolio()
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const markDownToHtml = (md) => {
         return sdwConverter.makeHtml(md);
@@ -178,7 +194,13 @@ const PortfolioCard = () => {
 
                 :
                 <Container className="bg-light p-5">
-                    <h4 className="mb-3">Projects</h4>
+                    <div className="d-flex mb-3">
+                        <h4>Projects</h4>
+                        <Button onClick={() => onAddProjectClicked()}>
+                            ADD <FaPlus />
+                        </Button>
+                    </div>
+
                     <div className="row">
                         {portfolio.projectList?.map((item) =>
                             <Link className="text-decoration-none col-lg-4 col-md-12 p-0" to={'/project-card/' + item?._id + '/' + portfolio._id} key={item._id}>
