@@ -8,4 +8,8 @@ export default class PortfolioService {
     static async getById(id) {
         return $api.get(`/portfolio/get-by-id/${id}`)
     }
+
+    static async getProjectById(id) {
+        return $api.get(`/portfolio/get-project-by-id/${id}`)
+    }
 }

@@ -8,6 +8,7 @@ import { Button } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router";
 import PortfolioCard from "./PortfolioCard/PortfolioCard";
+import ProjectCard from "./ProjectCard/ProjectCard";
 
 const Main = () => {
 
@@ -53,6 +54,9 @@ const Main = () => {
             <div>
                 <Routes>
                     <Route path="/portfolio-card/:id" element={<PortfolioCard />}>
+
+                    </Route>
+                    <Route path="/project-card/:id" element={<ProjectCard />}>
 
                     </Route>
                     <Route path="" element={<Navigate to="/portfolio-list" />} />
