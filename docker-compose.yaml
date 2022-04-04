@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+ portfolio_ui:
+  build: ./
+  container_name: portfolio_ui
+  ports: 
+    - "3200:3200"
+  command: serve -s build -l 3200
+  restart: unless-stopped
+  environment:
+    VIRTUAL_HOST: portfolio.megasaab98.com
+    VIRTUAL_PORT: 3200
+    LETSENCRYPT_HOST: portfolio.megasaab98.com
+    LETSENCRYPT_EMAIL: azhg.sabyrzhan@gmail.com
+  networks:
+    - https
+
+networks:
+  https:
+    external:
+      name: https_network
