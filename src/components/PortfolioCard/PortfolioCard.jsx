@@ -8,6 +8,7 @@ import { SocialIcon } from 'react-social-icons'
 import { Link } from "react-router-dom";
 import { FaPencilAlt, FaPlus } from 'react-icons/fa';
 import { Context } from "../..";
+import MailService from "../../service/MailService";
 
 
 
@@ -24,6 +25,10 @@ const PortfolioCard = () => {
     const [aboutMe, setAboutMe] = useState(portfolio?.aboutMe ?? '');
     const [workExpirience, setWorkExpirience] = useState(portfolio?.workExpirience ?? []);
     // forms if edit ends
+
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+    const [subject, setSubject] = useState('');
 
     const sdwConverter = new showdown.Converter();
 
@@ -58,6 +63,18 @@ const PortfolioCard = () => {
             initPorfolio()
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    const sendMessage = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await  MailService.send(email, message, subject);
+            if (response.status === 200) {
+                alert('message was sent');
+            }
+        }   catch (error) {
+            console.log(error);
         }
     }
 
@@ -261,19 +278,19 @@ const PortfolioCard = () => {
                             <div key={exp?.date + index}>
 
                                 <Form.Control type="text" className="mb-3"
-                                    onChange={(e) => setWorkExpirience([{ date: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)]}])} />
+                                    onChange={(e) => setWorkExpirience([{ date: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)] }])} />
 
                                 <Form.Control type="text" className="mb-3"
 
-                                    onChange={(e) => setWorkExpirience([{ companyLink: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)]}])} />
+                                    onChange={(e) => setWorkExpirience([{ companyLink: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)] }])} />
 
                                 <Form.Control type="text" className="mb-3"
 
-                                    onChange={(e) => setWorkExpirience([{ companyName: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)]}])} />
+                                    onChange={(e) => setWorkExpirience([{ companyName: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)] }])} />
 
                                 <textarea className="col-md-8 col-sm-12" height="2"
 
-                                    onChange={(e) => setWorkExpirience([{ expirience: e.target.value , ...workExpirience[workExpirience?.indexOf(exp)]}])} />
+                                    onChange={(e) => setWorkExpirience([{ expirience: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)] }])} />
 
                             </div>
 
@@ -306,15 +323,21 @@ const PortfolioCard = () => {
                 : <Container className="bg-light p-5">
 
                     <h2>Contact</h2>
-                    <form className="reveal-content">
+                    <form className="reveal-content" onSubmit={sendMessage}>
                         <div className="form-group mb-3">
-                            <input type="email" className="form-control" id="email" placeholder="Email" name="sender_email" />
+                            <input type="email" value={email} className="form-control" id="email" placeholder="Email" name="sender_email"
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
                         </div>
                         <div className="form-group mb-3">
-                            <input type="text" className="form-control" id="subject" placeholder="Subject" name="subject" />
+                            <input type="text" valie={subject} className="form-control" id="subject" placeholder="Subject" name="subject"
+                                onChange={(e) => setSubject(e.target.value)}
+                            />
                         </div>
                         <div className="form-group mb-3">
-                            <textarea className="form-control" rows="5" placeholder="Enter your message" name="content"></textarea>
+                            <textarea className="form-control" value={message} rows="5" placeholder="Enter your message" name="content"
+                                onChange={(e) => setMessage(e.target.value)}
+                            ></textarea>
                         </div>
                         <div className="form-group mb-3">
                             <button type="submit" className="btn btn-primary">Send message</button>
