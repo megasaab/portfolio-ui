@@ -23,7 +23,7 @@ const PortfolioCard = () => {
     const [socialNetworks, setSocialNetwork] = useState(portfolio?.socialNetworks ?? []);
     const [avatarUrl, setAvatarUrl] = useState(portfolio?.avatarUrl ?? '');
     const [aboutMe, setAboutMe] = useState(portfolio?.aboutMe ?? '');
-    const [workExpirience, setWorkExpirience] = useState(portfolio?.workExpirience ?? []);
+    const [workExpirience, setWorkExpirience] = useState(portfolio?.workExpirience ?? [{}]);
     // forms if edit ends
 
     const [email, setEmail] = useState('');
@@ -69,11 +69,11 @@ const PortfolioCard = () => {
     const sendMessage = async (e) => {
         e.preventDefault();
         try {
-            const response = await  MailService.send(email, message, subject);
+            const response = await MailService.send(email, message, subject);
             if (response.status === 200) {
                 alert('message was sent');
             }
-        }   catch (error) {
+        } catch (error) {
             console.log(error);
         }
     }
@@ -98,6 +98,7 @@ const PortfolioCard = () => {
     const onSaveFormClicked = async () => {
         try {
             socialNetworks.filter(item => item);
+            console.log(workExpirience)
             const newPortfolio = { title, position, socialNetworks, avatarUrl, aboutMe, workExpirience };
 
             const response = await PortfolioService.editPortfolio(portfolio?._id, newPortfolio);
@@ -117,13 +118,20 @@ const PortfolioCard = () => {
 
     const onAddWorkToExpirience = () => {
         const exp = {};
-        exp.date = 'date' + ' ' + portfolio.workExpirience.length;
-        exp.companyLink = 'link' + ' ' + portfolio.workExpirience.length;
-        exp.companyName = 'Company name' + ' ' + portfolio.workExpirience.length;
-        exp.expirience = 'expirience' + ' ' + portfolio.workExpirience.length;
+        const counter = portfolio.workExpirience.length;
+        exp.date = `date ${counter}`
+        exp.companyLink = `company link ${counter}`
+        exp.companyName = `company name ${counter}`
+        exp.expirience = `expirience ${counter}`
 
         portfolio.workExpirience.push(exp);
         setWorkExpirience(prev => [...portfolio.workExpirience, exp]);
+    }
+
+    const deleteItems = (lastIndex) => {
+      
+        portfolio.workExpirience =  portfolio.workExpirience.filter((item, indexItem) => indexItem !== lastIndex);
+        setWorkExpirience(portfolio.workExpirience.filter((item, indexItem) => indexItem !== lastIndex).filter((item, indexItem) => indexItem !== lastIndex));
     }
 
     return (
@@ -275,22 +283,57 @@ const PortfolioCard = () => {
                     isEdit ?
 
                         <>
-                            <div key={exp?.date + index}>
+                            <div key={index}>
 
-                                <Form.Control type="text" className="mb-3"
-                                    onChange={(e) => setWorkExpirience([{ date: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)] }])} />
+                                <Button onClick={() => deleteItems(index) }>
+                                    delete
+                                </Button>
 
-                                <Form.Control type="text" className="mb-3"
+                                <Form.Group>
+                                    <Form.Label>
+                                        Date
+                                    </Form.Label>
+                                    <Form.Control type="text" className="mb-3"
+                                        onChange={(e) => setWorkExpirience([{ ...workExpirience[index], date: e.target.value }])} />
 
-                                    onChange={(e) => setWorkExpirience([{ companyLink: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)] }])} />
+                                </Form.Group>
 
-                                <Form.Control type="text" className="mb-3"
+                                <Form.Group>
+                                    <Form.Label>
+                                        companyLink
+                                    </Form.Label>
 
-                                    onChange={(e) => setWorkExpirience([{ companyName: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)] }])} />
+                                    <Form.Control type="text" className="mb-3"
+                                        onChange={(e) => setWorkExpirience([{  ...workExpirience[index], companyLink: e.target.value }])} />
+
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>
+                                        position
+                                    </Form.Label>
+
+                                    <Form.Control type="text" className="mb-3"
+                                    onChange={(e) => setWorkExpirience([{ ...workExpirience[index], position: e.target.value }])} />
+
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>
+                                       company Name
+                                    </Form.Label>
+
+                                    <Form.Control type="text" className="mb-3"
+
+                                    onChange={(e) => setWorkExpirience([{ ...workExpirience[index], companyName: e.target.value }])} />
+
+
+                                </Form.Group>
+
 
                                 <textarea className="col-md-8 col-sm-12" height="2"
 
-                                    onChange={(e) => setWorkExpirience([{ expirience: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)] }])} />
+                                    onChange={(e) => setWorkExpirience([{  ...workExpirience[index], expirience: e.target.value }])} />
 
                             </div>
 

@@ -28,7 +28,7 @@ export default class Store {
 
 
     async login(email, password) {
-        localStorage.removeItem('token');
+        localStorage.removeItem('token')
         try {
             const res = await AuthService.login(email.toLowerCase(), password);
             localStorage.setItem('token', res.data.token);
