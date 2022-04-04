@@ -8,7 +8,7 @@ import { SocialIcon } from 'react-social-icons'
 import { Link } from "react-router-dom";
 import { FaPencilAlt, FaPlus } from 'react-icons/fa';
 import { Context } from "../..";
-import { set } from "mobx";
+
 
 
 const PortfolioCard = () => {
@@ -17,12 +17,12 @@ const PortfolioCard = () => {
     const [portfolio, setPortfolio] = useState('');
     const [isEdit, setEdit] = useState(false);
     // forms if edit start
-    const [title, setTitle] = useState(portfolio.title);
-    const [position, setPosition] = useState(portfolio.position);
-    const [socialNetworks, setSocialNetwork] = useState(portfolio.socialNetworks);
-    const [avatarUrl, setAvatarUrl] = useState(portfolio.avatarUrl);
-    const [aboutMe, setAboutMe] = useState(portfolio.aboutMe);
-    const [workExpirience, setWorkExpirience] = useState(portfolio.workExpirience);
+    const [title, setTitle] = useState(portfolio?.title ?? '');
+    const [position, setPosition] = useState(portfolio?.position ?? '');
+    const [socialNetworks, setSocialNetwork] = useState(portfolio?.socialNetworks ?? []);
+    const [avatarUrl, setAvatarUrl] = useState(portfolio?.avatarUrl ?? '');
+    const [aboutMe, setAboutMe] = useState(portfolio?.aboutMe ?? '');
+    const [workExpirience, setWorkExpirience] = useState(portfolio?.workExpirience ?? []);
     // forms if edit ends
 
     const sdwConverter = new showdown.Converter();
@@ -65,15 +65,17 @@ const PortfolioCard = () => {
         return sdwConverter.makeHtml(md);
     }
 
-    const onEditClicked = () => {
+    const onEditClicked = async () => {
+        await initPorfolio();
+
         setEdit((prevState) => setEdit(!prevState));
-            
-        setTitle(portfolio.title);
-        setPosition(portfolio.position);
-        setSocialNetwork(portfolio.socialNetworks);
-        setAvatarUrl(portfolio.avatarUrl);
-        setAboutMe(portfolio.aboutMe);
-        setWorkExpirience(portfolio.workExpirience);
+
+        setTitle(portfolio?.title);
+        setPosition(portfolio?.position);
+        setSocialNetwork(portfolio?.socialNetworks);
+        setAvatarUrl(portfolio?.avatarUrl);
+        setAboutMe(portfolio?.aboutMe);
+        setWorkExpirience(portfolio?.workExpirience);
     }
 
     const onSaveFormClicked = async () => {
@@ -94,6 +96,17 @@ const PortfolioCard = () => {
     const onAddLinkToSocialNetworks = (elem) => {
         portfolio.socialNetworks.push(elem)
         setSocialNetwork(prev => [...portfolio.socialNetworks, elem]);
+    }
+
+    const onAddWorkToExpirience = () => {
+        const exp = {};
+        exp.date = 'date' + ' ' + portfolio.workExpirience.length;
+        exp.companyLink = 'link' + ' ' + portfolio.workExpirience.length;
+        exp.companyName = 'Company name' + ' ' + portfolio.workExpirience.length;
+        exp.expirience = 'expirience' + ' ' + portfolio.workExpirience.length;
+
+        portfolio.workExpirience.push(exp);
+        setWorkExpirience(prev => [...portfolio.workExpirience, exp]);
     }
 
     return (
@@ -232,30 +245,35 @@ const PortfolioCard = () => {
 
             <Container className="bg-light p-5">
 
-                <h2>Work</h2>
+                <div className="d-flex text-center">
+                    <h2 className="me-1">Work</h2>
+                    {isEdit ? <Button className="btn-success" onClick={() => onAddWorkToExpirience()}>
+                        <FaPlus />
+                    </Button> : <div></div>}
+                </div>
 
-                {portfolio?.workExpirience?.map((exp) =>
+
+                {portfolio?.workExpirience?.map((exp, index) =>
 
                     isEdit ?
 
                         <>
-                            <div key={exp?.date}>
+                            <div key={exp?.date + index}>
 
                                 <Form.Control type="text" className="mb-3"
-                                    value={workExpirience[workExpirience.indexOf(exp)]?.date}
-                                    onChange={(e) => setWorkExpirience([{ date: e.target.value }, ...workExpirience[workExpirience.indexOf(exp)]])} />
+                                    onChange={(e) => setWorkExpirience([{ date: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)]}])} />
 
                                 <Form.Control type="text" className="mb-3"
-                                    value={workExpirience[workExpirience.indexOf(exp)]?.companyLink}
-                                    onChange={(e) => setWorkExpirience([{ companyLink: e.target.value }, ...workExpirience[workExpirience.indexOf(exp)]])} />
+
+                                    onChange={(e) => setWorkExpirience([{ companyLink: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)]}])} />
 
                                 <Form.Control type="text" className="mb-3"
-                                    value={workExpirience[workExpirience.indexOf(exp)]?.companyName}
-                                    onChange={(e) => setWorkExpirience([{ companyName: e.target.value }, ...workExpirience[workExpirience.indexOf(exp)]])} />
+
+                                    onChange={(e) => setWorkExpirience([{ companyName: e.target.value, ...workExpirience[workExpirience?.indexOf(exp)]}])} />
 
                                 <textarea className="col-md-8 col-sm-12" height="2"
-                                    value={workExpirience[workExpirience.indexOf(exp)]?.expirience} type="textarea"
-                                    onChange={(e) => setWorkExpirience([{ expirience: e.target.value }, ...workExpirience[workExpirience.indexOf(exp)]])} />
+
+                                    onChange={(e) => setWorkExpirience([{ expirience: e.target.value , ...workExpirience[workExpirience?.indexOf(exp)]}])} />
 
                             </div>
 
