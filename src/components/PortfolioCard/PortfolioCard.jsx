@@ -77,6 +77,7 @@ const PortfolioCard = () => {
 
     const onSaveFormClicked = async () => {
         try {
+            socialNetworks.filter(item => item);
             const newPortfolio = { title, position, socialNetworks, avatarUrl, aboutMe, workExpirience };
 
             const response = await PortfolioService.editPortfolio(portfolio?._id, newPortfolio);
@@ -130,14 +131,14 @@ const PortfolioCard = () => {
 
             <div className="text-center d-flex mb-3">
                 <div className="d-flex">
-                    {portfolio.socialNetworks?.map((link) =>
+                    {portfolio.socialNetworks?.map((link, index) =>
                         isEdit ?
-                            <Container key={link}>
+                            <Container key={link + index}>
                                 <Form.Group>
                                     <Form.Label>
                                         SocialIcons
                                     </Form.Label>
-                                    <Form.Control type="text" value={socialNetworks[socialNetworks.indexOf(link)]}
+                                    <Form.Control type="text" value={socialNetworks[index]}
                                         onChange={(e) => setSocialNetwork([e.target.value, ...socialNetworks])} />
                                 </Form.Group>
                             </Container>

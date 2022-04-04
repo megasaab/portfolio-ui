@@ -9,6 +9,7 @@ import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router";
 import PortfolioCard from "./PortfolioCard/PortfolioCard";
 import ProjectCard from "./ProjectCard/ProjectCard";
+import Register from "./Register";
 
 const Main = () => {
 
@@ -61,6 +62,7 @@ const Main = () => {
                     </Route>
                     <Route path="" element={<Navigate to="/portfolio-list" />} />
                     <Route path='/login' element={<Login />} />
+                    <Route path='/register' element={<Register />} />
                     <Route path='/portfolio-list' element={<PortfolioList />} />
                 </Routes>
             </div>

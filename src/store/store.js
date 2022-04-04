@@ -46,6 +46,15 @@ export default class Store {
         }
     }
 
+    async register(email, password, firstName, lastName) {
+        try {
+            const res = await AuthService.registration(email.toLowerCase(), password, firstName, lastName);
+            return res;
+        } catch (error) {
+            return error;
+        }
+    }
+
     async logout() {
         localStorage.removeItem('token');
         this.setAuth(false);
