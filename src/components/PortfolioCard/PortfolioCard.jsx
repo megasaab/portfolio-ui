@@ -8,6 +8,7 @@ import { SocialIcon } from 'react-social-icons'
 import { Link } from "react-router-dom";
 import { FaPencilAlt, FaPlus } from 'react-icons/fa';
 import { Context } from "../..";
+import { set } from "mobx";
 
 
 const PortfolioCard = () => {
@@ -66,7 +67,7 @@ const PortfolioCard = () => {
 
     const onEditClicked = () => {
         setEdit((prevState) => setEdit(!prevState));
-
+            
         setTitle(portfolio.title);
         setPosition(portfolio.position);
         setSocialNetwork(portfolio.socialNetworks);
@@ -88,6 +89,11 @@ const PortfolioCard = () => {
             console.log(error);
         }
 
+    }
+
+    const onAddLinkToSocialNetworks = (elem) => {
+        portfolio.socialNetworks.push(elem)
+        setSocialNetwork(prev => [...portfolio.socialNetworks, elem]);
     }
 
     return (
@@ -133,13 +139,20 @@ const PortfolioCard = () => {
                 <div className="d-flex">
                     {portfolio.socialNetworks?.map((link, index) =>
                         isEdit ?
-                            <Container key={link + index}>
+                            <Container key={index}>
                                 <Form.Group>
                                     <Form.Label>
                                         SocialIcons
                                     </Form.Label>
-                                    <Form.Control type="text" value={socialNetworks[index]}
-                                        onChange={(e) => setSocialNetwork([e.target.value, ...socialNetworks])} />
+                                    <div className="d-flex">
+                                        <Form.Control className="me-1" type="text"
+                                            onChange={(e) => setSocialNetwork([e.target.value, ...socialNetworks])} />
+                                        {index === portfolio.socialNetworks?.length - 1 ?
+                                            <Button className="btn-success" onClick={() => onAddLinkToSocialNetworks('new link' + index)}>
+                                                <FaPlus />
+                                            </Button> : ''
+                                        }
+                                    </div>
                                 </Form.Group>
                             </Container>
 
